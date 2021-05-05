@@ -1,14 +1,18 @@
 <template>
   <div>
-    <Menu path="/" />
-    Burası Anasayfa
+    
+   Burası Anasayfa
   </div>
 </template>
 <script>
-import Menu from '../components/Menu'
+
+import auth from '../auth/index'
 export default {
-  components:{
-    Menu
+  
+  methods:{
+    getUser(){
+     console.log( auth.getUserInfo())
+    }
   }
 }
 </script>

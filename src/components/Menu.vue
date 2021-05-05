@@ -5,7 +5,7 @@
       <div class="relative flex items-center justify-between h-16">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
           <!-- Mobile menu button-->
-          <DisclosureButton class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <DisclosureButton ref="buton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
             <span class="sr-only">Open main menu</span>
             <MenuIcon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
             <XIcon v-else class="block h-6 w-6" aria-hidden="true" />
@@ -17,8 +17,8 @@
             <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow" />
           </div>
           <div class="hidden sm:block sm:ml-6">
-            <div class="flex space-x-4">
-              <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
+            <div class="flex space-x-4 buyuk">
+              <router-link  v-for="item in navigation" :key="item.name" :to="item.href" class="buyuk text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
             </div>
           </div>
         </div>
@@ -40,8 +40,8 @@
             </div>
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
               <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <MenuItem v-show="login == true" v-slot="{ active }">
-                  <router-link to="/profile" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Profiliniz</router-link>
+                <MenuItem v-show="login == true">
+                  <router-link to="/profile" class="block px-4 py-2 text-sm text-gray-700 active" >Profiliniz</router-link>
                 </MenuItem>
                 <MenuItem v-show="login == true" v-slot="{ active }">
                   <a @click.prevent="logout()" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Çıkış Yap</a>
@@ -58,8 +58,8 @@
     </div>
 
     <DisclosurePanel class="sm:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-        <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
+      <div class="px-2 pt-2 pb-3 space-y-1 gucuk">
+        <router-link v-for="item in navigation" :key="item.name" :to="item.href" class="gucuk text-gray-300  hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"  :aria-current="item.current ? 'page' : undefined">{{ item.name }}</router-link>
       </div>
     </DisclosurePanel>
   </Disclosure>
@@ -86,7 +86,7 @@ export default {
     XIcon,
     UserIcon
   },
-  props:["path"],
+  
   created() {
 
   this.login = firebase.isAuthanticated()
@@ -99,8 +99,8 @@ export default {
       login:false,
       picture:null,
       navigation : [
-        { name: 'Anasayfa', href: '/', current: (this.path == "/") ? true :false},
-        { name: 'Hakkımda', href: '/about', current: (this.path == "/about") ? true :false },
+        { name: 'Anasayfa', href: '/'},
+        { name: 'Hakkımda', href: '/about' },
       ]
     }
   },
@@ -124,7 +124,17 @@ export default {
         })
       })
     },
+    
   }
 
 }
 </script>
+<style>
+
+  .buyuk.router-link-active{
+    @apply bg-gray-900 text-white
+  }
+  .gucuk.router-link-active{
+    @apply bg-red-400 
+  }
+</style>

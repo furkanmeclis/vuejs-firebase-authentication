@@ -2,13 +2,31 @@ import store from '../store/index'
 import firebase from 'firebase'
 
 export default {
+    authControl(){
+        if (localStorage.login == true){
+            let data = {
+                uid : localStorage.uid,
+                displayName:localStorage.displayName,
+                email:localStorage.email,
+                emailVerified:localStorage.emailVerified,
+                photoURL:localStorage.photoURL,
+            }
+            store.commit("SET_LOGGED_IN",true)
+            store.commit("SET_USER",data)
+        }
+    },
     loginWithGoogle(){
         return new Promise((resolve, reject) => {
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then((data) => {
-
-                store.commit("SET_LOGGED_IN",true)
-                store.commit("SET_USER",data.user)
+                
+                localStorage.uid = data.user.uid
+                localStorage.login=true,
+                localStorage.displayName=data.user.displayName
+                localStorage.email=data.user.email
+                localStorage.emailVerified=data.user.emailVerified
+                localStorage.photoURL=data.user.photoURL
+                
 
                 resolve({
                     message:"Giriş İşlemi Başarılı",
@@ -30,9 +48,14 @@ export default {
                 .auth()
                 .signInWithEmailAndPassword(email,password)
                 .then(data => {
-
-                    store.commit("SET_LOGGED_IN", true)
-                    store.commit("SET_USER", data.user)
+                    localStorage.login=true,
+                    localStorage.uid = data.user.uid
+                    localStorage.displayName=data.user.displayName
+                    localStorage.email=data.user.email
+                    localStorage.emailVerified=data.user.emailVerified
+                    localStorage.photoURL=data.user.photoURL
+                
+    
                     resolve({
                         message:"Giriş İşlemi Başarılı",
                         data:data.user
@@ -57,10 +80,12 @@ export default {
                     })
                         .then(() => {
                         });
-
-
-                    store.commit("SET_LOGGED_IN", true)
-                    store.commit("SET_USER", data.user)
+                        localStorage.uid = data.user.uid
+                        localStorage.displayName=data.user.displayName
+                        localStorage.email=data.user.email
+                        localStorage.emailVerified=data.user.emailVerified
+                        localStorage.photoURL=data.user.photoURL
+                        localStorage.login=true,
                     resolve({
                         message:"Kayıt İşlemi Başarılı",
                         data:data.user
@@ -95,17 +120,31 @@ export default {
                     message: "Başarıyla Çıkış Yaptınız",
 
                 })
-                store.commit("SET_LOGGED_IN", false)
-                store.commit("SET_USER", null)
+                localStorage.clear()
             }).catch(err => {
                 reject(err)
             })
         })
     },
     isAuthanticated(){
-       return store.getters.isAuthanticated
+        if(localStorage.login){
+            return true
+        }else{
+            return false
+        }
     },
     getUserInfo(){
-       return store.getters.getUserInfo
+       if(localStorage.login){
+        return {
+            login:localStorage.login,
+            uid : localStorage.uid,
+            displayName:localStorage.displayName,
+            email:localStorage.email,
+            emailVerified:localStorage.emailVerified,
+            photoURL:localStorage.photoURL,
+        }
+       }else{
+           return {}
+       }
     }
 }

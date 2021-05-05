@@ -1,6 +1,6 @@
 <template>
       <div>
-        <Menu path="/login" />
+       
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
           <div class="mb-1 text-white bg-red-500 py-2 px-4 rounded-2xl" v-show="hata != false">
             {{ hata }}
@@ -74,7 +74,7 @@
       </div>
 </template>
 <script>
-import Menu from '../components/Menu'
+
 import auth from '../auth/index'
 export default {
   created() {
@@ -83,9 +83,7 @@ export default {
       this.$router.push("/")
     }
     },
-  components:{
-    Menu
-  },
+ 
   data(){
     return{
       isUser:true,

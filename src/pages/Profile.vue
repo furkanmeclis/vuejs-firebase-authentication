@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Menu path="/login" />
-
+    
 
     <!-- component -->
     <!-- eslint-disable -->
@@ -22,9 +21,13 @@
         <p class="text-sm text-gray-600 text-center">
           {{veri.email}}
         </p>
-        <p :class="{'text-green-600' : veri.emailVerified , 'text-red-600' : !veri.emailVerified}" class="text-sm text-gray-600 text-center">
-          {{ (veri.emailVerified == true) ? 'Doğrulanmış Email' : 'Doğrulanmamış Email'}}
+        <p v-if="veri.emailVerified == true" class="text-green-600 text-sm text-center">
+Doğrulanmış Email
         </p>
+        <p v-else class="text-red-600 text-sm text-center">
+Doğrulanmamış Email
+        </p>
+       
       </div>
 
     </div>
@@ -32,13 +35,10 @@
 </template>
 
 <script>
-import Menu from '../components/Menu'
+
 import auth from '../auth/index'
 export default {
   name: "Profile",
-  components:{
-    Menu
-  },
   created(){
     if (auth.isAuthanticated() == false){
       this.$router.push("/login")
