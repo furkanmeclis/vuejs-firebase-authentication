@@ -38,16 +38,16 @@
                 <img v-show="login == true" :src="picture" alt="" class="h-6 w-6 rounded-full">
               </MenuButton>
             </div>
-            <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+            <transition enter-active-class="transition ease-out duration-100 active" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
               <MenuItems class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <MenuItem v-show="login == true">
                   <router-link to="/profile" class="block px-4 py-2 text-sm text-gray-700 active" >Profiliniz</router-link>
                 </MenuItem>
-                <MenuItem v-show="login == true" v-slot="{ active }">
-                  <a @click.prevent="logout()" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Çıkış Yap</a>
+                <MenuItem v-show="login == true">
+                  <a @click.prevent="logout()" class="block px-4 py-2 active text-sm text-gray-700">Çıkış Yap</a>
                 </MenuItem>
                 <MenuItem v-show="login == false" v-slot="{ active }">
-                  <router-link to="/login" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Giriş Yap</router-link>
+                  <router-link to="/login" class="block px-4 py-2 active text-sm text-gray-700">Giriş Yap</router-link>
                 </MenuItem>
 
               </MenuItems>
@@ -134,7 +134,7 @@ export default {
   .buyuk.router-link-active{
     @apply bg-gray-900 text-white
   }
-  .gucuk.router-link-active{
-    @apply bg-red-400 
+  .active.router-link-active{
+    @apply bg-gray-100 
   }
 </style>
